@@ -29,4 +29,4 @@ mkdir -p $BUILD_ROOT
 build_module apiextractor git://gitorious.org/pyside/apiextractor.git
 build_module generatorrunner git://gitorious.org/pyside/generatorrunner.git
 build_module shiboken git://gitorious.org/pyside/shiboken.git
-build_module pyside-shiboken git://gitorious.org/pyside/pyside-shiboken.git
+build_module pyside-shiboken git://gitorious.org/pyside/pyside.git
