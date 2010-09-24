@@ -2,7 +2,7 @@
 #Source: http://stackoverflow.com/questions/2880434/how-to-install-pyside-v0-3-1-on-mac-os-x
 
 BUILD_ROOT=~/tmp/pyside-build
-INSTALL_PREFIX=~/tmp/pyside
+INSTALL_PREFIX=/usr/local
 
 function build_module {
     cd $BUILD_ROOT
