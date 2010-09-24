@@ -4,25 +4,33 @@ hyperpyg.py
 
 A command line tool to syntax highlight code blocks in HTML files.
 
-Typical usage:
+## Typical usage:
 
 Given a file `example.html`:
 
-
     <html><body>
-        <code syntax="python">
+        <pre syntax="python">
             for i in range(10):
                 print "Hello, world!"
-        </code>
+        </pre>
     </body></html>
+
+The `<pre>` tag must include a "syntax=LANG" attribute for the script to pick up the
+tag for processing.
 
 Run hyperpyg thus:
 
     $ hyperpyg.py example.html -o example2.html
 
-Shell invokation
+Shell invocation to process all the html files in `$HOME/htdocs`.
 
     $find ~/htdocs | grep html$ | xargs grep -l "<pre syntax=" | xargs -I {} -t ./hyperpyg.py -f {} -o {} -q
+
+
+## Options
+
+Refer to pygments documentation for list of available options on lexers and  styles.
+
     
 '''
 try:
