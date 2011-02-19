@@ -2,4 +2,5 @@ www.reddit.com
 news.ycombinator.com
 www.facebook.com
 facebook.com
-
+twitter.com
+api.twitter.com
