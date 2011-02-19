@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'webrick'
 require 'webrick/httpproxy'
 require 'getoptlong'
