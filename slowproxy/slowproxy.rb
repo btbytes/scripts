@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby
+
+# script ref: http://www.reddit.com/r/programming/comments/fo276/i_wrote_a_ruby_script_modeled_after_todays_xkcd/
+# script source: http://pastebin.com/Et2TSZiF
+
 require 'webrick'
 require 'webrick/httpproxy'
 require 'getoptlong'
