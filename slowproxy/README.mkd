@@ -1,4 +1,4 @@
-Slowproxy is a ruby script allows you to do this: [http://xkcd.com/862/](http://xkcd.com/862/).
+Slowproxy is a ruby script that allows you to do this: [http://xkcd.com/862/](http://xkcd.com/862/).
 
 Using this script along with the proxy settings in your browser, you can
 slow down the loading of "time-sink" websites like Reddit, Twitter and Hacker News.
