@@ -1,0 +1,11 @@
+#!/bin/bash 
+
+if ! command pandoc -v > /dev/null 2>&1;
+then
+	echo "Pandoc is required. Please install before proceeding";
+	exit 1;
+fi
+
+fname=`mktemp ${1%%.*}.XXX`
+pandoc $1 -f markdown -t context --standalone --template=`dirname $0`/textproc/lesspaper-ltr.tex > $fname
+texexec --pdf --silent --purgeall $fname
