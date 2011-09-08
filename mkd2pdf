@@ -1,11 +1,26 @@
-#!/bin/bash 
+#!/bin/bash
+# Autor: Alex Wall
+# Licence: GPLv3 
 
-if ! command pandoc -v > /dev/null 2>&1;
-then
-	echo "Pandoc is required. Please install before proceeding";
-	exit 1;
-fi
+# pandoc (markdown2pdf) needs an path to a template 
+# this script searches for a template in a custom folder (TEMPLATE_DIR)
+# you can pass any other option (e.g. xetex), it will be passed to markdown2pdf 
 
-fname=`mktemp ${1%%.*}.XXX`
-pandoc $1 -f markdown -t context --standalone --template=`dirname $0`/textproc/lesspaper-ltr.tex > $fname
-texexec --pdf --silent --purgeall $fname
+# the default custom pandoc template (latex.template) in ~/.pandoc/templates
+TEMPLATE="latex.template"
+TEMPLATE_DIR=$HOME/.pandoc/templates/
+
+while getopts 't:' OPTION ; do
+case $OPTION in
+	t)	TEMPLATE=$TEMPLATE_DIR$OPTARG.template
+	    shift $((OPTIND-1));;
+	\?)	# do nothing 
+	;;
+	:)	echo "Option \"-$OPTARG\" needs an argument"
+		echo $HELP ; exit 1;;
+esac
+done
+
+# run markdown2pdf with options
+
+markdown2pdf --template=$TEMPLATE $@
