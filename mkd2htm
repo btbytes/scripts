@@ -1,0 +1,27 @@
+#!/bin/bash
+# Autor: Alex Wall
+# Licence: GPLv3 
+# Modified by Pradeep Gowda
+
+# pandoc (markdown2pdf) needs an path to a template 
+# this script searches for a template in a custom folder (TEMPLATE_DIR)
+# you can pass any other option (e.g. xetex), it will be passed to markdown2pdf 
+
+# the default custom pandoc template (latex.template) in ~/.pandoc/templates
+DEFAULT="html.template"
+TEMPLATE_DIR=$HOME/.pandoc/templates/
+TEMPLATE=$TEMPLATE_DIR$DEFAULT
+
+
+while getopts 't:' OPTION ; do
+case $OPTION in
+	t)	TEMPLATE=$TEMPLATE_DIR$OPTARG.template
+	    shift $((OPTIND-1));;
+	\?)	
+	;;
+	:)	echo "Option \"-$OPTARG\" needs an argument"
+		echo $HELP ; exit 1;;
+esac
+done
+
+pandoc -f markdown -t html --html5 --smart  --standalone --base-header-level=2 --template=$TEMPLATE $1 $2

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Convert text markup formats to beamer presentations.
+# beamer.template is available from:  http://bit.ly/pandoc_beamer
+
+fname=`basename $1`
+filename=$(basename $fname)
+extension=${filename##*.}
+filename=${filename%.*}
+
+case "$extension" in
+    md|mkd|txt)
+        format="markdown"
+        ;;
+    rst)
+        format="rst"
+            ;;  
+    textile)
+        format="textile"
+            ;;
+
+    html)
+        format="html"
+        ;;
+    *)
+        format="markdown"
+            
+esac
+
+pandoc --template $HOME/.pandoc/templates/beamer.template \
+       -f $format -i $fname -t latex -o ${filename}.tex
+
+perl -pe 's/\\section/\\end{frame}\n\\begin{frame}/' -i ${filename}.tex
+perl -pe 's/\\end{document}/\\end{frame}\n\\end{document}/' -i ${filename}.tex
+pdflatex ${filename}.tex </dev/null
+##uncomment this line if you desire bibtex
+#bibtex presentation 
+pdflatex ${filename}.tex </dev/null
+
