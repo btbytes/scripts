@@ -1,0 +1,16 @@
+#! /bin/bash
+
+## http://www.reddit.com/r/emacs/comments/dy9yt/anyone_know_of_a_script_that_i_can_feed_an/
+## http://www.ibm.com/developerworks/library/l-bash2.html
+## http://desk.stinkpot.org:8080/tricks/index.php/2007/02/concatenate-strings-in-bash/
+
+f=""
+for file in "$@"
+do
+##emacs --batch -q --no-site-file --eval "(add-to-list 'load-path "~/.emacs.d/org-mode/lisp/")" --load $HOME/.emacs.d/org-mode/lisp/org.el --visit ${file} --funcall org-export-as-html-batch
+f="${f} --visit ${file} --funcall org-export-as-html-batch"
+done
+emacs --batch -q --no-site-file --eval "(add-to-list 'load-path \"/Users/pradeep/.emacs.d/\")" --load $HOME/.emacs.d/init.el $f
+
+## use emacsclient, check if running, execute.  otherwise u this 
+## NO, emacsclient takes in elisp argument with --eval, not list list of files (will need to write my own elisp function...not worth effort)
