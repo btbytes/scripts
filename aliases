@@ -1,0 +1,3 @@
+alias gpom="git push origin master"
+alias gpwm="git push web master"
+alias tug="git pull origin master"
