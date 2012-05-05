@@ -2,4 +2,6 @@
 # Python virtual Environment
 export PYTHONSTARTUP=$HOME/.pythonrc
 export WORKON_HOME=$HOME/.virtualenvs
+
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
 source /usr/local/bin/virtualenvwrapper.sh
