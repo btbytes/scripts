@@ -58,5 +58,5 @@ DIR=$(pwd)
 
 DOC=$DIR/$1
 for doc in "$@"; do
-  soffice -writer -invisible "macro:///Standard.Module1.ConvertWordToPDF($DIR/$doc)" && echo "Created $DIR/${doc%.*}.pdf"
+  soffice --writer --invisible "macro:///Standard.Module1.ConvertWordToPDF($DIR/$doc)" && echo "Created $DIR/${doc%.*}.pdf"
 done
