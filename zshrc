@@ -118,4 +118,5 @@ export PATH=$PATH:$HOME/elixir/bin
 ## patdiff
 git config --global alias.patdiff 'difftool -y -x patdiff'
 
+
 [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pandoc -f markdown -t context --template=compact --latex-engine=xelatex $1 -o $2
