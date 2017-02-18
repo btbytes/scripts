@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+
+"""
+mygitstars - a script to print out last few github repos favourited by you.
+
+usage:
+    ./mygitstars --user myname
+- [repo description](https://github.com/author/favrepo)
+
+Saves the most recently starred repo, so that if you run this again,
+say in a week you will only see the repos starred since the last run.
+
+To clear this saved point, use `./mygitstars --clear`
+"""
+
+import argparse
+import json
+import os
+import sys
+import urllib2
+
+savefile = os.path.expanduser('~/.mygitstars')
+
+
+def main(user):
+    limit = 10
+    url = 'https://api.github.com/users/%s/starred' % (user, )
+    response = urllib2.urlopen(url)
+    data = json.load(response)
+    lastid = get_lastpoint()
+    cnt = 0
+    for r in data:
+        if cnt == 0:
+            saveid = r['id']
+        url = r['html_url']
+        desc = r['description']
+        if (lastid is None and cnt > limit) or (str(r['id']) == lastid):
+            save_point_and_quit(saveid)
+        else:
+            print '- [%s](%s)' % (desc, url)
+            cnt += 1
+
+
+def get_lastpoint():
+    if os.path.exists(savefile):
+        with open(savefile) as f:
+            lastid = f.readline()
+            lastid = lastid.strip()
+        return lastid
+    else:
+        return None
+
+
+def save_point_and_quit(rid):
+    with open(savefile, 'w') as f:
+        f.write(str(rid))
+        sys.exit(0)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--clear',
+                        help='clear previously save point',
+                        action='store_true')
+    parser.add_argument('--user', help='github username', default='btbytes')
+    args = parser.parse_args()
+    if args.clear and os.path.exists(savefile):
+        os.remove(savefile)
+
+    main(args.user)
