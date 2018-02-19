@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 mygitstars - a script to print out last few github repos favourited by you.
@@ -13,11 +14,16 @@ say in a week you will only see the repos starred since the last run.
 To clear this saved point, use `./mygitstars --clear`
 """
 
+
 import argparse
+import codecs
 import json
 import os
 import sys
 import urllib2
+
+UTF8Writer = codecs.getwriter('utf8')
+sys.stdout = UTF8Writer(sys.stdout)
 
 savefile = os.path.expanduser('~/.mygitstars')
 
