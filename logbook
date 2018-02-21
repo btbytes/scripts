@@ -1,7 +1,0 @@
-#!/bin/sh
-
-TS=$(date +'%H:%M:%S')
-DS=$(date +'%Y-%m-%d')
-cd "~/Google\ Drive/logbook/"
-joe $DS.md && git add . && git commit -am "Updating $DS entry on $TS" && git push
-exit

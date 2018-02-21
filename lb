@@ -1,0 +1,7 @@
+#!/bin/sh
+
+TS=$(date +'%H:%M:%S')
+DS=$(date +'%Y-%m-%d')
+cd "~/ongoing/"
+vim $DS.md && git add . && git commit -am "Updating $DS entry on $TS" && git push
+exit
