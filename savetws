@@ -1,0 +1,61 @@
+#!/bin/bash
+# Save a threadreaderapp url into a HTML file
+# Dependencies:
+#  1. pup https://github.com/ericchiang/pup
+# set -x
+function usage(){
+    echo "Usage: savetws http://threadreaderapp.com/url.html filename [priv]"
+    exit 1
+}
+
+savelocn=$HOME/btbytes/tweetstorms
+fname="$savelocn/$2.html"
+if  [[ "$3" == "priv" ]]; then
+	fname="$savelocn/$2.html.priv"
+fi
+logfile="$savelocn/savetws.log.priv"
+
+[[ $# -lt 2 ]] && usage
+
+if [ -f "$fname" ]; then
+    echo "$fname exists"
+    exit 1
+fi
+
+content=$(curl -s "$1")
+origtweet=$(echo "$content" | pup '.button-twitter attr{href}' | head -n 1)
+tweeter=$(echo "$origtweet" | cut -d/ -f4)
+if [[ ! -z "$origtweet" ]]; then
+  tweettime=$(curl -s "$origtweet" | pup 'a.tweet-timestamp:first-of-type attr{title}' | head -n 1) || ""
+fi
+
+cat <<EOF >> "$fname"
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+EOF
+
+echo "$content" | pup title >> "$fname"
+
+cat <<EOF >> "$fname"
+<body>
+<p id="original-tweet-url"><a href="$origtweet">$tweeter $tweettime</a></p>
+EOF
+
+echo "$content" | pup '.t-main' >> "$fname"
+
+cat <<EOF >> "$fname"
+<hr/>
+<p>
+<a href="..">Home</a> | <a href=".">tweetstorms</a> |
+<a href="$1">Threadreaderapp URL</a>
+</p>
+</body>
+</html>
+EOF
+
+# create a log of files downloaded
+printf "$1\t$fname\n" >> "$logfile"
