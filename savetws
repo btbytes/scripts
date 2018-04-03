@@ -11,7 +11,7 @@ function usage(){
 savelocn=$HOME/btbytes/tweetstorms
 fname="$savelocn/$2.html"
 if  [[ "$3" == "priv" ]]; then
-	fname="$savelocn/$2.html.priv"
+	fname="$savelocn/$2-priv.html"
 fi
 logfile="$savelocn/savetws.log.priv"
 
