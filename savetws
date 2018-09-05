@@ -8,7 +8,7 @@ function usage(){
     exit 1
 }
 
-savelocn=$HOME/btbytes/tweetstorms
+savelocn=$HOME/btbytes/content/tweetstorms
 fname="$savelocn/$2.html"
 if  [[ "$3" == "priv" ]]; then
 	fname="$savelocn/$2-priv.html"
@@ -35,7 +35,7 @@ cat <<EOF >> "$fname"
   <head>
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="../css/style.css" type="text/css"/>
 EOF
 
 echo "$content" | pup title >> "$fname"
@@ -45,7 +45,7 @@ cat <<EOF >> "$fname"
 <p id="original-tweet-url"><a href="$origtweet">$tweeter $tweettime</a></p>
 EOF
 
-echo "$content" | pup '.t-main' >> "$fname"
+echo "$content" | pup '.t-main .content-tweet' | pandoc -f html -t markdown | grep -v '^:::' | pandoc -f markdown -t html >> "$fname"
 
 cat <<EOF >> "$fname"
 <hr/>
