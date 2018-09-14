@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# webpage2pdf -- convert a web page into a PDF
+# depends on:
+#   pandoc - http://pandoc.org
+#   pup - https://github.com/ericchiang/pup
+
+show_help() {
+cat << EOF
+Usage: ${0##*/} [-h] [-o OUTFILE]  [-p PUPFILTER] [URL]...
+Convert the URL into a PDF and write it to OUTFILE.
+
+    -h              display the help and exit
+    -p PUPFILTER    pup HTML filter
+    -t TEMPLATE     ConTeXt template name
+    -x XTRAOPTIONS  Extra options to pass on to Pandoc
+EOF
+}
+
+outfile="out-$(date +%Y%m%d%H%M).pdf"
+OPTIND=1
+while getopts "ho:p:x:" opt; do
+  case $opt in
+    o)
+     outfile=$OPTARG
+     ;;
+    p)
+     pupfilter=$OPTARG
+     ;;
+    h)
+     show_help
+     exit 0
+     ;;
+    x)
+     xtra_options=$OPTARG
+     ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+shift "$((OPTIND-1))"
+
+if [ -z "$1" ]; then
+    show_help
+    exit 0
+fi
+
+PANDOC="pandoc -f html -t context $xtra_options -o $outfile"
+CURL="curl -s $1"
+PUP="pup '$pupfilter'"
+
+if [ -n "$pupfilter" ]; then
+  command="$CURL | $PUP | $PANDOC"
+else
+  command="$CURL | $PANDOC"
+fi
+echo "$command"
+eval $command
+echo "Wrote $1 to $outfile"
+exit 0

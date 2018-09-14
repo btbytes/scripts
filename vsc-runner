@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "You need to save first!"
+    exit 5
+fi
+cd `dirname "$1"`
+time nim c --verbosity:0 --hints:off -d:release --parallelBuild:1 -r `basename "$1"`
