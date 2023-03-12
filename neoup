@@ -1,0 +1,4 @@
+#!/bin/sh
+fname=$(basename $1)
+. ~/.neocities
+curl -F $fname=@$1 https://$NEO_USER:$NEO_PASS@neocities.org/api/upload

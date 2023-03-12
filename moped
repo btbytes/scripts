@@ -1,0 +1,6 @@
+#!/bin/bash
+for FILE in $@
+do
+	open -a Moped $FILE
+done
+
