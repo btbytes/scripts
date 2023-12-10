@@ -1,2 +1,0 @@
-#!/bin/bash
-aws s3 ls --profile=tie-vt-filefeed s3://tie-vt-filefeed/$1

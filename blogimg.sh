@@ -36,3 +36,28 @@ echo "https://files.btbytes.com/pictures/${YYYY}/${MM}/${FILENAME}_thumb.webp"
 # Print the HTML code for embedding the thumbnail.
 echo "<a href=\"https://files.btbytes.com/pictures/${YYYY}/${MM}/${FILENAME}.webp\"><img src=\"https://files.btbytes.com/pictures/${YYYY}/${MM}/${FILENAME}_thumb.webp\" alt=\"thumbnail\" /></a>"
 
+
+# ############## ChatGPT Prompt ######################
+
+# write a shell script that will read the filename of an HEIC file, and write two output files
+# into the following directory /Users/pradeep/files.btbytes.com/pictures/YYYY/MM/FILENAME.webp
+# and /Users/pradeep/files.btbytes.com/pictures/YYYY/MM/FILENAME_thumb.webp, where
+
+# YYYY = current year
+# MM = current month
+# FILENAME = second argument to the script, if not given, use the original filename.
+
+# the thumb file should be max 600px width while maintaining aspect ration.
+
+# Print output like this:
+
+# /Users/pradeep/files.btbytes.com/pictures/YYYY/MM/FILENAME.webp
+# /Users/pradeep/files.btbytes.com/pictures/YYYY/MM/FILENAME_thumb.webp
+
+# https://files.btbytes.com/pictures/YYYY/MM/FILENAME.webp
+# https://files.btbytes.com/pictures/YYYY/MM/FILENAME_thumb.webp
+
+
+# <a href="https://files.btbytes.com/pictures/YYYY/MM/FILENAME.webp"><img src="https://files.btbytes.com/pictures/YYYY/MM/FILENAME_thumb.webp" alt="thumbnail " /></a>
+
+# replacing the variable names in CAPITAL letters appropriately.
