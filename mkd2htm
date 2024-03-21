@@ -24,4 +24,4 @@ case $OPTION in
 esac
 done
 
-pandoc -f markdown -t html --html5 --smart  --standalone --base-header-level=2 --template=$TEMPLATE $1 $2
+pandoc -f markdown -t html --standalone --template=$TEMPLATE $1 $2 --css=https://cdn.jsdelivr.net/npm/water.css@2/out/water.css

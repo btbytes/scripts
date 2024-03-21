@@ -1,11 +1,11 @@
 #!/bin/bash
 # Autor: Alex Wall
-# Licence: GPLv3 
+# Licence: GPLv3
 # Modified by Pradeep Gowda
 
-# pandoc (markdown2pdf) needs an path to a template 
+# pandoc (markdown2pdf) needs an path to a template
 # this script searches for a template in a custom folder (TEMPLATE_DIR)
-# you can pass any other option (e.g. xetex), it will be passed to markdown2pdf 
+# you can pass any other option (e.g. xetex), it will be passed to markdown2pdf
 
 # the default custom pandoc template (latex.template) in ~/.pandoc/templates
 DEFAULT="html.template"
@@ -17,11 +17,11 @@ while getopts 't:' OPTION ; do
 case $OPTION in
 	t)	TEMPLATE=$TEMPLATE_DIR$OPTARG.template
 	    shift $((OPTIND-1));;
-	\?)	
+	\?)
 	;;
 	:)	echo "Option \"-$OPTARG\" needs an argument"
 		echo $HELP ; exit 1;;
 esac
 done
 
-pandoc -f markdown -t html --toc --html5 --toc --smart  --standalone --base-header-level=2 --template=$TEMPLATE $1 $2
+pandoc -f markdown -t html --standalone --toc --template=$TEMPLATE $1 $2 --css=https://cdn.jsdelivr.net/npm/water.css@2/out/water.css
