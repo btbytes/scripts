@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+ls -1rt ~/Downloads/ | tail -n 1 | xargs -I{} open ~/Downloads/{}
+
