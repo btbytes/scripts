@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-clip2cloudfront.py - uploads an image in the clipboard to cloudront bucket
+clip2cloudfront.py - uploads an image in the clipboard to cloudfront bucket
 and prints the uploaded image's URL.
 
 Requires: Python3 and PIL library

@@ -1,48 +1,54 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-# Get current year and month
-CURRENT_YEAR=$(date +%Y)
-CURRENT_MONTH=$(date +%m)
-
-# Define source and destination paths
-SOURCE_DIR="$HOME/Downloads"
-DEST_DIR="$HOME/files.btbytes.com/images/$CURRENT_YEAR/$CURRENT_MONTH"
-
-# Find the latest PNG file if no filename was provided
-LATEST_PNG=$(ls -t "$SOURCE_DIR"/* | head -n 1)
-
-echo "File Found: ${LATEST_PNG}. Cancel if this is not what you want. sleep(2)"
-sleep 2
-
-# Check if a PNG file was found
-if [ -z "$LATEST_PNG" ]; then
-    echo "Error: No PNG files found in the Downloads directory."
-    exit 1
-fi
+import os
+import subprocess
+import time
+from datetime import datetime
+from pathlib import Path
 
 
-# Check if a filename was provided as the first argument
-if [ $# -gt 0 ]; then
-    FILENAME="$1"
-else
-    # Extract the base filename (without the extension)
-    FILENAME="${LATEST_PNG%.*}"
-fi
+def main():
+    current_time = datetime.now()
+    current_year = current_time.strftime("%Y")
+    current_month = current_time.strftime("%m")
 
-# Create destination directory if needed
-echo "Going to create ${DEST_DIR}."
+    source_dir = Path.home() / "Downloads"
+    dest_dir = Path.home() / f"files.btbytes.com/images/{current_year}/{current_month}"
 
-mkdir -p "$DEST_DIR" 
+    # Find the latest PNG (or use the first argument if provided)
+    try:
+        latest_png = max(source_dir.glob("*.png"), key=os.path.getmtime)
+    except ValueError:  # No PNG files found
+        print("Error: No PNG files found in the Downloads directory.")
+        return
 
-# Convert PNG to WebP (using either the provided FILENAME or the extracted one)
-echo "Converting ${LATEST_PNG} to $DEST_DIR/$FILENAME.webp"
-cwebp "$LATEST_PNG" -o "$DEST_DIR/$FILENAME.webp"
+    print(f"File Found: {latest_png}. Cancel if this is not what you want.")
+    time.sleep(2)  # Give the user a chance to cancel
 
-# Print HTML fragment
-echo "<figure>"
-echo " <img src=\"https://files.btbytes.com/images/$CURRENT_YEAR/$CURRENT_MONTH/$FILENAME.webp\" alt=\" \">"
-echo " <figcaption></figcaption>"
-echo "</figure> [via]()"
+    filename = Path(latest_png).stem
 
-# Run sync script
-(cd "$HOME/files.btbytes.com/" && ./sync.sh)
+    # Create destination directory
+    print(f"Going to create {dest_dir}.")
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    # Convert to WebP
+    webp_path = dest_dir / f"{filename}.webp"
+    print(f"Converting {latest_png} to {webp_path}")
+    subprocess.run(["cwebp", str(latest_png), "-o", str(webp_path)])
+
+    # Print HTML fragment
+    image_url = f"https://files.btbytes.com/images/{current_year}/{current_month}/{filename}.webp"
+    print(
+        f"""<figure>
+ <img src="{image_url}" alt="" width=600>
+ <figcaption></figcaption>
+</figure> [via]()"""
+    )
+
+    os.chdir(Path.home() / "files.btbytes.com")
+    # Run sync script
+    subprocess.run(["./sync.sh"])
+
+
+if __name__ == "__main__":
+    main()
