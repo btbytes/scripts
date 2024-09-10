@@ -7,6 +7,32 @@ from datetime import datetime
 from pathlib import Path
 
 
+def find_latest_image(directory):
+  """Finds the most recently modified image file in the given directory.
+
+  Args:
+    directory: The directory to search in.
+
+  Returns:
+    The path to the most recently modified image file, or None if no image files are found.
+  """
+
+  latest_file = None
+  latest_timestamp = 0
+
+  for filename in os.listdir(directory):
+    # Check if the file is an image file
+    if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.webp')):
+      filepath = os.path.join(directory, filename)
+      timestamp = os.path.getmtime(filepath)
+      if timestamp > latest_timestamp:
+        latest_timestamp = timestamp
+        latest_file = filepath
+
+  return latest_file
+
+
+
 def main():
     current_time = datetime.now()
     current_year = current_time.strftime("%Y")
@@ -17,9 +43,9 @@ def main():
 
     # Find the latest PNG (or use the first argument if provided)
     try:
-        latest_png = max(source_dir.glob("*.png"), key=os.path.getmtime)
+        latest_png = find_latest_image(source_dir)
     except ValueError:  # No PNG files found
-        print("Error: No PNG files found in the Downloads directory.")
+        print("Error: No Image files found in the Downloads directory.")
         return
 
     print(f"File Found: {latest_png}. Cancel if this is not what you want.")
