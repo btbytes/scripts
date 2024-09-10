@@ -8,6 +8,8 @@
 # ]
 # ///
 
+# Read about this script here: https://www.btbytes.com/weekly/2024-36.html
+
 import os
 import sys
 from pathlib import Path
