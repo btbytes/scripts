@@ -14,7 +14,7 @@ MM=$(date +'%m')
 
 
 # Define the output directory path.
-OUTPUT_DIR="/Users/pradeep/files.btbytes.com/pictures/$YYYY/$MM/"
+OUTPUT_DIR="${HOME}/files.btbytes.com/pictures/$YYYY/$MM/"
 
 # Create the output directory if it doesn't exist.
 mkdir -p "${OUTPUT_DIR}"
